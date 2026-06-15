@@ -43,6 +43,7 @@ Transaction:
 
 class Customer:
     """Represents a ByteBites customer with a name and purchase history."""
+
     def __init__(self, name, purchase_history=None):
         self.name = name
         self.purchase_history = purchase_history or []
@@ -56,6 +57,7 @@ class Customer:
 
 class FoodItem:
     """Represents a ByteBites menu item with price, category, and popularity."""
+
     def __init__(self, name, price, category, popularity_rating):
         self.name = name
         self.price = price
@@ -68,6 +70,7 @@ class FoodItem:
 
 class Menu:
     """Represents the ByteBites menu and supports category filtering."""
+
     def __init__(self, items=None):
         self.items = items or []
 
@@ -75,11 +78,17 @@ class Menu:
         self.items.append(item)
 
     def filter_by_category(self, category):
+        # Return only the menu items that match the requested category.
         return [item for item in self.items if item.category == category]
+
+    def sort_by_popularity(self):
+        # Return menu items sorted from highest popularity rating to lowest.
+        return sorted(self.items, key=lambda item: item.popularity_rating, reverse=True)
 
 
 class Transaction:
     """Represents a ByteBites customer's order and calculates the total cost."""
+
     def __init__(self, items=None):
         self.items = items or []
 
@@ -87,6 +96,7 @@ class Transaction:
         self.items.append(item)
 
     def calculate_total(self):
+        # Add and return the prices of all selected food items.
         return sum(item.price for item in self.items)
     
 # I reviewed the generated scaffold and confirmed that it only uses the four planned classes: 
@@ -98,3 +108,30 @@ class Transaction:
 # I accepted the custom ByteBites Agent's suggestion to add docstrings.
 # The docstrings briefly describe the purpose of each class while keeping the code simple
 # and aligned with the ByteBites specification.
+
+
+# Part 3a: Algorithmic Plan
+# Customer:
+# - add_purchase(transaction): adds a completed Transaction to the customer's purchase history.
+# - has_purchase_history(): checks whether the customer has any past transactions.
+#
+# FoodItem:
+# - is_popular(threshold): checks whether the item's popularity rating meets or exceeds the threshold.
+#
+# Menu:
+# - add_item(item): adds a FoodItem object to the menu.
+# - filter_by_category(category): returns FoodItem objects whose category matches the requested category.
+# - sort_by_popularity(): returns menu items sorted from highest popularity rating to lowest.
+#
+# Transaction:
+# - add_item(item): adds a selected FoodItem to the transaction.
+# - calculate_total(): adds together the prices of all selected FoodItem objects and returns the total.
+#
+# This plan keeps the algorithmic work aligned with the ByteBites spec and UML diagram.
+
+
+# Part 3c Review:
+# I used the custom ByteBites Agent to review the algorithmic methods.
+# The agent confirmed that filter_by_category, sort_by_popularity, and calculate_total
+# are clear, beginner-friendly, and aligned with the ByteBites UML design.
+# I accepted the suggestion to add short docstrings for extra clarity.
