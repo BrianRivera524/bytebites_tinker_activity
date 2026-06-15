@@ -10,7 +10,7 @@ ByteBites Backend UML Diagram
 | + hasPurchaseHistory(): bool         |
 +-------------------------------+
 
-Customer * ──── * Transaction
+Customer 1 ──── * Transaction
 
 +-------------------------------+
 |          FoodItem             |
@@ -31,7 +31,7 @@ Customer * ──── * Transaction
 | + filterByCategory(category: String): List<FoodItem> |
 +-------------------------------+
 
-Menu * ──── * FoodItem
+Menu 1s ──── * FoodItem
 
 +-------------------------------+
 |        Transaction            |
