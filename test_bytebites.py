@@ -43,10 +43,12 @@ These ideas match the ByteBites spec: totals for orders, category browsing, popu
 # I avoided tests that depend on internal implementation details or add features 
 # outside the UML design.
 
+import pytest
 from models import Customer, FoodItem, Menu, Transaction
 
 
 def test_calculate_total_with_multiple_items():
+    # Verify that a transaction with multiple items returns the correct total.
     burger = FoodItem("Spicy Burger", 8.99, "Entrees", 9)
     soda = FoodItem("Large Soda", 2.50, "Drinks", 7)
 
@@ -54,16 +56,19 @@ def test_calculate_total_with_multiple_items():
     transaction.add_item(burger)
     transaction.add_item(soda)
 
-    assert transaction.calculate_total() == 11.49
+    # pytest.approx is used because prices are floats.
+    assert transaction.calculate_total() == pytest.approx(11.49)
 
 
 def test_order_total_is_zero_when_empty():
+    # Verify that an empty transaction returns a total of 0.
     transaction = Transaction()
 
     assert transaction.calculate_total() == 0
 
 
 def test_filter_by_category_returns_matching_items():
+    # Verify that filtering by category only returns matching menu items.
     burger = FoodItem("Spicy Burger", 8.99, "Entrees", 9)
     soda = FoodItem("Large Soda", 2.50, "Drinks", 7)
     juice = FoodItem("Orange Juice", 3.00, "Drinks", 8)
@@ -82,6 +87,7 @@ def test_filter_by_category_returns_matching_items():
 
 
 def test_sort_by_popularity_highest_first():
+    # Verify that menu items are sorted from highest popularity to lowest.
     burger = FoodItem("Spicy Burger", 8.99, "Entrees", 9)
     soda = FoodItem("Large Soda", 2.50, "Drinks", 7)
     cake = FoodItem("Chocolate Cake", 4.25, "Desserts", 8)
@@ -93,12 +99,11 @@ def test_sort_by_popularity_highest_first():
 
     sorted_items = menu.sort_by_popularity()
 
-    assert sorted_items[0] == burger
-    assert sorted_items[1] == cake
-    assert sorted_items[2] == soda
+    assert sorted_items == [burger, cake, soda]
 
 
 def test_customer_purchase_history_updates_after_purchase():
+    # Verify that a customer's purchase history updates after adding a transaction.
     customer = Customer("Brian")
     transaction = Transaction()
 
@@ -108,3 +113,10 @@ def test_customer_purchase_history_updates_after_purchase():
 
     assert customer.has_purchase_history() is True
     assert transaction in customer.purchase_history
+
+
+# Part 4d Review:
+# I used the custom ByteBites Agent to review the pytest tests for clarity,
+# correctness, and consistency with the ByteBites specification.
+# I accepted the suggestion to use pytest.approx() for the float total comparison
+# and kept the tests focused on public behavior.
